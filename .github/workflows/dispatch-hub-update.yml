@@ -14,7 +14,6 @@ on:
       HUB_DISPATCH_PAT:
         description: "PAT to use for dispatching update"
         required: true
-        type: string
 jobs:
   dispatch-hub-update:
     runs-on: ubuntu-latest

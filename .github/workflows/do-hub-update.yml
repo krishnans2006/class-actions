@@ -14,7 +14,6 @@ on:
       HUB_UPDATE_PAT:
         description: "PAT with write access to repo"
         required: true
-        type: string
 jobs:
   update:
     runs-on: ubuntu-latest
