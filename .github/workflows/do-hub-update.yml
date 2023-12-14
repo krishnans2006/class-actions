@@ -18,16 +18,7 @@ jobs:
   do-hub-update:
     runs-on: ubuntu-latest
     steps:
-      - name: Get repository from cache
-        id: cache-hub
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-hub
-        with:
-          path: ${{ GITHUB.WORKSPACE }}
-          key: ${{ runner.os }}-${{ env.cache-name }}
-      - if: ${{ steps.cache-hub.outputs.cache-hit != 'true' }}
-        name: Checkout hub and submodules
+      - name: Checkout hub and submodules
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.HUB_UPDATE_PAT }}
