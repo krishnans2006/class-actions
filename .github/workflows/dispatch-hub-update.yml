@@ -15,7 +15,6 @@ on:
         description: "PAT to use for dispatching update"
         required: true
         type: string
-    from: update-submodules
 jobs:
   dispatch-hub-update:
     runs-on: ubuntu-latest
