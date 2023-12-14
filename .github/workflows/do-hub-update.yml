@@ -1,0 +1,37 @@
+name: Do hub update
+on:
+  workflow_call:
+    inputs:
+      sha:
+        description: "Value of github.sha"
+        required: true
+        type: string
+      repository:
+        description: "Value of github.repository"
+        required: true
+        type: string
+    secrets:
+      HUB_UPDATE_PAT:
+        description: "PAT with write access to repo"
+        required: true
+        type: string
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout hub and submodules
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.HUB_UPDATE_PAT }}
+          submodules: recursive
+      - name: Determine target SHA
+        run: echo "SHORT_SHA=`echo ${{ inputs.sha }} | cut -c1-7`" >> $GITHUB_ENV
+      - name: Determine commit message
+        run: echo "COMMIT_MSG=Update ${{ inputs.repository }} @ ${SHORT_SHA}" >> $GITHUB_ENV
+      - name: Update submodules and push
+        run: |
+          git submodule update --init --recursive --checkout -f --remote
+          git config --global user.name "GitHub Action"
+          git config --global user.email "noreply@github.com"
+          git commit -am "${COMMIT_MSG}"
+          git push

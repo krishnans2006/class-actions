@@ -1,0 +1,36 @@
+name: Trigger hub update
+on:
+  workflow_call:
+    inputs:
+      sha:
+        description: "Value of github.sha"
+        required: true
+        type: string
+      repository:
+        description: "Value of github.repository"
+        required: true
+        type: string
+    secrets:
+      HUB_DISPATCH_PAT:
+        description: "PAT to use for dispatching update"
+        required: true
+        type: string
+    from: update-submodules
+jobs:
+  dispatch-hub-update:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        repo: ["krishnans2006-classes/hub"]
+    steps:
+      - name: Push to repo
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.HUB_DISPATCH_PAT }}
+          repository: ${{ matrix.repo }}
+          event-type: update
+          client-payload: |-
+            {
+              "sha": "${{ inputs.sha }}",
+              "repository": "${{ inputs.repository }}"
+            }
