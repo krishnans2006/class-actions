@@ -15,7 +15,7 @@ on:
         description: "PAT with write access to repo"
         required: true
 jobs:
-  update:
+  do-hub-update:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout hub and submodules
