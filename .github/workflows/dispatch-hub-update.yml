@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        repo: ["krishnans2006-classes/hub"]
+        repo: ["krishnans2006/classes"]
     steps:
       - name: Push to repo
         uses: peter-evans/repository-dispatch@v2
