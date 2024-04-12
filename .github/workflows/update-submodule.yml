@@ -1,0 +1,14 @@
+name: Update submodule
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+jobs:
+  trigger-submodule-update:
+    uses: krishnans2006/class-actions/.github/workflows/dispatch-submodule-update.yml@main
+    with:
+      sha: ${{ github.sha }}
+      repository: ${{ github.repository }}
+    secrets:
+      UPDATE_SUBMODULE_PAT: ${{ secrets.UPDATE_SUBMODULE_PAT }}

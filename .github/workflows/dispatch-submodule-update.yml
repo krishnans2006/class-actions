@@ -1,4 +1,4 @@
-name: Trigger hub update
+name: Dispatch submodule update
 on:
   workflow_call:
     inputs:
@@ -11,11 +11,11 @@ on:
         required: true
         type: string
     secrets:
-      HUB_DISPATCH_PAT:
+      UPDATE_SUBMODULE_PAT:
         description: "PAT to use for dispatching update"
         required: true
 jobs:
-  dispatch-hub-update:
+  dispatch-submodule-update:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -24,7 +24,7 @@ jobs:
       - name: Push to repo
         uses: peter-evans/repository-dispatch@v2
         with:
-          token: ${{ secrets.HUB_DISPATCH_PAT }}
+          token: ${{ secrets.UPDATE_SUBMODULE_PAT }}
           repository: ${{ matrix.repo }}
           event-type: update
           client-payload: |-
