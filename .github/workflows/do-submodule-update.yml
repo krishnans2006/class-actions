@@ -23,14 +23,16 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.DO_SUBMODULE_UPDATE_PAT }}
-          submodules: recursive
-      - name: Determine target SHA
+      - name: Determine submodule path
+        run: echo "SUBMODULE_PATH=`git config --file .gitmodules --get-regexp '\.url$' | sed -nr 's|^submodule\.(.*)\.url .*${{ inputs.repository }}$|\1|p'`" >> $GITHUB_ENV
+      - name: Determine commit SHA representation
         run: echo "SHORT_SHA=`echo ${{ inputs.sha }} | cut -c1-7`" >> $GITHUB_ENV
       - name: Determine commit message
         run: echo "COMMIT_MSG=Update ${{ inputs.repository }} @ ${SHORT_SHA}" >> $GITHUB_ENV
-      - name: Update submodules and push
+      - name: Update submodule
+        run: git update-index --cacheinfo "160000,${{ inputs.sha }},${SUBMODULE_PATH}"
+      - name: Commit and push
         run: |
-          git submodule update --init --recursive --checkout -f --remote
           git config --global user.name "GitHub Action"
           git config --global user.email "noreply@github.com"
           git commit -am "${COMMIT_MSG}"
