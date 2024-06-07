@@ -5,17 +5,20 @@ GitHub Actions used to manage class repositories.
 ## How it works
 
 - A commit is made to the `main` branch of a class repository, triggering:
-  - [class/update-hub.yml](https://github.com/krishnans2006-classes/template/blob/main/.github/workflows/update-hub.yml) `trigger-hub-update`
-  - [actions/dispatch-hub-update.yml](https://github.com/krishnans2006-classes/actions/blob/main/.github/workflows/dispatch-hub-update.yml) `dispatch-hub-update`
-  - [repository-dispatch@v2](https://github.com/peter-evans/repository-dispatch) to send a repository dispatch event to the hub
-- The hub picks up the repository dispatch event and runs:
-  - [hub/update-hub.yml](https://github.com/krishnans2006-classes/hub/blob/main/.github/workflows/update-hub.yml) `handle-hub-update`
-  - [actions/do-hub-update.yml](https://github.com/krishnans2006-classes/actions/blob/main/.github/workflows/do-hub-update.yml) `do-hub-update`
+  - [class/update-submodule.yml](https://github.com/krishnans2006/class-template/blob/main/.github/workflows/update-submodule.yml) `trigger-submodule-update`
+  - [actions/dispatch-submodule-update.yml](https://github.com/krishnans2006/class-actions/blob/main/.github/workflows/dispatch-submodule-update.yml) `dispatch-submodule-update`
+  - [repository-dispatch@v2](https://github.com/peter-evans/repository-dispatch) to send a repository dispatch event to the main classes repository.
+- The main repo picks up the repository dispatch event and runs:
+  - [classes/update-submodules.yml](https://github.com/krishnans2006/classes/blob/main/.github/workflows/update-submodules.yml) `handle-submodule-update`
+  - [actions/do-submodule-update.yml](https://github.com/krishnans2006/class-actions/blob/main/.github/workflows/do-submodule-update.yml) `do-submodule-update`
   - [checkout@v4](https://github.com/actions/checkout) to checkout the hub repository
-  - Update all class repositories
-  - Commit and push submodule changes to the hub repository
+  - [Commands](https://github.com/krishnans2006/class-actions/blob/main/.github/workflows/do-submodule-update.yml#L26-L39) to update the submodule SHA, commit, and push
 
 ## Issues to solve
+
+There are currently no more issues left to solve. The below issues have been solved by [eb99134](https://github.com/krishnans2006/class-actions/commit/eb9913466836a5054798c37c8bfc788886f9cfb0).
+
+---
 
 ### Slow actions
 
