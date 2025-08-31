@@ -1,4 +1,4 @@
-# actions
+# Class Actions
 
 GitHub Actions used to manage class repositories.
 
